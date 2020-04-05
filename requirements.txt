@@ -21,7 +21,6 @@ modulegraph==0.10.4
 py2app==0.7.3
 pycparser==2.19
 pycryptodome==3.9.7
-pyobjc-core==2.5.1
 pyobjc-framework-Accounts==2.5.1
 pyobjc-framework-AddressBook==2.5.1
 pyobjc-framework-AppleScriptKit==2.5.1
