@@ -26,14 +26,10 @@ pycryptodome==3.9.7
 pyOpenSSL==19.0.0
 pyparsing==2.0.1
 python-dateutil==1.5
-pytz==2018.9  
+pytz==2019.3
 scipy==0.13.0b1
 six==1.12.0
 vboxapi==1.0
 xattr==0.6.4
 psycopg2==2.7.7 
-whitenoise==4.1.2 
-                                                                                                                                          
-                                                                                                                                                                                                                                                                                                         
-                                                                                                                                                  
-                                                                                                                                                                                                                                                                                                        
+whitenoise==4.1.2                                                                                                                                                                                                                                                                                                   
