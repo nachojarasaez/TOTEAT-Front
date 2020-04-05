@@ -8,4 +8,5 @@ requests
 whitenoise==5.0.1
 djangorestframework==3.9.2
 dj-static==0.0.6
+django_taggit==1.2.0
 
