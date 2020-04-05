@@ -28,5 +28,4 @@ pyOpenSSL==19.0.0
 pyparsing==2.0.1
 python-dateutil==1.5
 pytz==2019.3
-whitenoise==4.1.2   
-xattr==0.6.4    
+whitenoise==4.1.2 
