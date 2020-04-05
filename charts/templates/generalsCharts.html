@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+<script>
+{% block jquery %}
+
+var month = "{{month}}";
+var modality = "{{modality}}"
+console.log(modality)
+console.log(month)
+var endpoint = '/api/generals';
+modality == '2'? endpoint += '?modality=2&month='+month: console.log('no actualice el endpoint');
+var defaultData1 = []
+var labels1 = [];
+var defaultData2 = []
+var labels2 = [];
+
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        labels1.push(data.labels['1']) 
+        labels1.push(data.labels['2']) 
+        defaultData1.push(data.default['1'])
+        defaultData2.push(data.default['2'])
+        for (i = 1; i < 3; i++) {
+            setChart(String(i), data.default[String(i)], data.labels[String(i)])
+        }
+        
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+function setChart(i, data, label){
+    var ctx2 = document.getElementById(i);
+    var myChart = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: label,
+        datasets: [{
+            label: '# of Millones de Pesos',
+            data: data,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        title: {
+            display: true,
+            text: 'Grafico 1'
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+}
+
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+<div class='row'>
+
+    <div class='col-sm-12' url-endpoint='{% url "api-generals" %}'>
+        <form role="form" action='{% url "general" %}'> 
+            <select id="modalidad" name="modalidad">
+                <option value="1"> Anual</option>
+                <option value="2"> Mensual</option>
+
+              </select>
+              <select id="month" name="month">
+                <option value="1">Enero</option>
+                <option value="2">Febrero</option>
+                <option value="3">Marzo</option>
+                <option value="4">Abril</option>
+
+              </select>
+             
+        <button type="submit">Filtrar</button>
+        </form>
+        <div class='col-sm-6' style="position: relative; height:40vh; width:40vw">
+            <canvas id='1' ></canvas>
+            
+        </div>
+        <div class="col-sm-6" style="position: relative; height:100vh; width:100vw">
+            <canvas id='2' width="400" height="400"></canvas>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
