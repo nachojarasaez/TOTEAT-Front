@@ -22,7 +22,7 @@ from .views import ProductsView, get_products, GeneralsView, get_generals, get_w
 urlpatterns = [
     url(r'^products$', ProductsView.as_view(), name='home'),
     url(r'^api/products/$', get_products, name='api-products'),
-    url(r'^generals$', GeneralsView.as_view(), name='general'),
+    url(r'^$', GeneralsView.as_view(), name='general'),
     url(r'^api/generals/$', get_generals, name='api-generals'),
     url(r'^workers$', WorkersView.as_view(), name='worker'),
     url(r'^api/workers/$', get_workers, name='api-workers'),

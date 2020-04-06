@@ -58,7 +58,7 @@ def get_products(request, *args, **kwargs):
 
 class GeneralsView(View):
     def get(self, request, *args, **kwargs):
-        print(request.GET)
+        print("holaaaaaa")
         if 'modalidad' in request.GET.keys():
             return render(request, 'generalsCharts.html', {"month":request.GET['month'], "modality": request.GET['modalidad']})
         else:
@@ -98,11 +98,11 @@ def get_generals(request, *args, **kwargs):
     default_items = {'1':[i['atencion'] for i in data['total'].values()], '2':[i['total'] for i in data['total'].values()]}
     data = {"labels": labels, "default": default_items, "titles" : titles, 'tag': tag}
     print(data)
+    print('holaaa')
     return JsonResponse(data) # http response
 
 class WorkersView(View):
     def get(self, request, *args, **kwargs):
-        print(request)
         if 'month' in request.GET.keys():
             if 'day' in request.GET.keys():
                 return render(request, 'workersCharts.html', {"month":request.GET['month'], "day": request.GET['day']})
@@ -145,6 +145,8 @@ def get_workers(request, *args, **kwargs):
     labels = {'1':list(data['waiter'].keys()), '2':list(data['waiter'].keys()), '3':list(data['cashier'].keys())}
     default_items = {'1':[i['total'] for i in data['waiter'].values()], '2':[i['quantity'] for i in data['waiter'].values()], '3':[i['quantity'] for i in data['cashier'].values()]}
     data = {"labels": labels, "default": default_items, "titles" : titles, 'tag': tag}
+    print(data)
+    print('holaaa')
 
     return JsonResponse(data) # http response
 

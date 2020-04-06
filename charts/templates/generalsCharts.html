@@ -5,23 +5,15 @@
 
 var month = "{{month}}";
 var modality = "{{modality}}"
-console.log(modality)
-console.log(month)
 var endpoint = '/api/generals';
 modality == '2'? endpoint += '?modality=2&month='+month: console.log('no actualice el endpoint');
-var defaultData1 = []
-var labels1 = [];
-var defaultData2 = []
-var labels2 = [];
+
 
 $.ajax({
     method: "GET",
     url: endpoint,
     success: function(data){
-        labels1.push(data.labels['1']) 
-        labels1.push(data.labels['2']) 
-        defaultData1.push(data.default['1'])
-        defaultData2.push(data.default['2'])
+
         for (i = 1; i < 3; i++) {
             setChart(String(i), data.default[String(i)], data.labels[String(i)], data.titles[i-1], data.tag[i-1])
         }
