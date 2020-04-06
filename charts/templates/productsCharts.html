@@ -81,36 +81,44 @@ function setChart(i, data, label){
 </script>
 
 {% block content %}
-
-<div class='row'>
-
-    <div class='col-sm-12' url-endpoint='{% url "api-products" %}'>
+<div>
+    <div>
+        <h2 class="display-4 text-center">Estadísticas de <b>Productos</b></h2>
+    </div>
+    <div class='form-group' style='margin: 2rem; right: 5%; position: absolute'>
         <form role="form" action='{% url "home" %}'> 
-            <select id="month" name="month">
+            <select class='custom-select' style='width: 42%; font-size: 13px' id="month" name="month">
                 <option value="1"> Enero</option>
                 <option value="2"> Febrero</option>
                 <option value="3"> Marzo</option>
                 <option value="4" selected> Todos los meses</option>
-              </select>
-              <select id="day" name="day">
-                <option value="1">1</option>
+            </select>
+            <select class='custom-select' style='width: 38%; font-size: 13px' id="day" name="day">
+                {% for i in '0123456789101112131415161718192'|make_list %}
+                    <option value='{{forloop.counter}}'>{{forloop.counter}}</option>
+                {% endfor %}
                 <option value="2">2</option>
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
                 <option value="0" selected>Todos los dias</option>
-
-              </select>
-             
-        <button type="submit">Filtrar</button>
-        </form>
-        <div class='col-sm-6' style="position: relative; height:40vh; width:40vw">
-            <canvas id='1' ></canvas>
+            </select>
             
+            <button style='border-radius: 4px; height: 34.5px' type="submit">Filtrar</button>
+        </form>
+    </div>
+
+    <div url-endpoint='{% url "api-products" %}' style='margin-top: 6rem'>
+        <div class='row'>
+            <div class='col'>
+                <canvas id='1' width="200" height="100"></canvas>      
+            </div>  
+            <div class="col">
+                <canvas id='2' width="200" height="150"></canvas>
+            </div>    
+              
         </div>
-        <div class="col-sm-6" style="position: relative; height:100vh; width:100vw">
-            <canvas id='2' width="400" height="400"></canvas>
-        </div>
+        
     </div>
 </div>
 
