@@ -27,12 +27,31 @@ def get_products(request, *args, **kwargs):
         url += '?month='+request.GET['month']
         if 'day' in request.GET.keys() and request.GET['day'] != '0':
             url += '&day='+request.GET['day']
-    print(url)
     data = requests.get(url)
     data = data.json()
+    titles = []
+    tag = ['de pesos', "de productos", 'de atenciones']
+    if 'month' in request.GET.keys() and request.GET['month'] != '4':
+        mes = request.GET['month']
+        if mes == '1':
+            month = 'Enero'
+        elif mes == '2':
+            month = 'Febrero'
+        else:
+            month = 'Marzo'
+        if 'day' in request.GET.keys() and request.GET['day'] != '0':
+            titles.append('Total de Ventas por Categoria - '+request.GET['day']+' de '+month)
+            titles.append('Cantidad de Productos Vendidos - '+request.GET['day']+' de '+month)
+        else:
+            titles.append('Total de Ventas por Categoria - ' + month)
+            titles.append('Cantidad de mesas atendidas por Mesero - ' + month)
+    else:
+        titles.append('Total de Ventas por Categoria - Anual')
+        titles.append('Cantidad de Productos Vendidos - Anual')
+
     labels = {'1':list(data['category'].keys()), '2':list(data['product'].keys())}
     default_items = {'1':[i for i in data['category'].values()], '2':[i['quantity'] for i in data['product'].values()]}
-    data = {"labels": labels, "default": default_items}
+    data = {"labels": labels, "default": default_items, "titles" : titles, 'tag': tag}
 
     return JsonResponse(data) # http response
 
@@ -41,31 +60,44 @@ class GeneralsView(View):
     def get(self, request, *args, **kwargs):
         print(request.GET)
         if 'modalidad' in request.GET.keys():
-            print('hola')
             return render(request, 'generalsCharts.html', {"month":request.GET['month'], "modality": request.GET['modalidad']})
         else:
-            print("holaaaaa")
             return render(request, 'generalsCharts.html', {"modality":"", "month": ''})
 
 
 def get_generals(request, *args, **kwargs):
     url = "https://mysterious-reef-10731.herokuapp.com/app/stadistics/generals"
     print(request.GET.keys())
-
+    if 'month' in request.GET.keys():
+        mes = request.GET['month']
+        if mes == '1':
+            month = 'Enero'
+        elif mes == '2':
+            month = 'Febrero'
+        else:
+            month = 'Marzo'
+    print('holaaaaa')
     if 'modality' in request.GET.keys():
         url += '?modality=2&month='+request.GET['month']
     else:
         labels = ["Enero", 'Febrero', "Marzo"]
         labels = {'1':labels,'2':labels}
-
     data = requests.get(url)
     data = data.json()
+    titles = []
+    tag = ['de Mesas Atendidas', "de Pesos Chilenos"]
+    print('HOLA')
+
     if 'modality' in request.GET.keys():
         labels = {'1':list(data['total'].keys()),'2':list(data['total'].keys())}
+        titles.append('Numero de Atenciones Diarias - '+month)
+        titles.append('Ventas Totales Diarias - '+month)
+    else:
+        titles.append('Numero de Atenciones Mensual')
+        titles.append('Ventas Totales Mensual')
     default_items = {'1':[i['atencion'] for i in data['total'].values()], '2':[i['total'] for i in data['total'].values()]}
-    data = {"labels": labels, "default": default_items}
+    data = {"labels": labels, "default": default_items, "titles" : titles, 'tag': tag}
     print(data)
-
     return JsonResponse(data) # http response
 
 class WorkersView(View):
@@ -99,9 +131,9 @@ def get_workers(request, *args, **kwargs):
         else:
             month = 'Marzo'
         if 'day' in request.GET.keys() and request.GET['day'] != '0':
-            titles.append('Total de Ventas por Mesero - '+request.GET['day']+'de '+month)
-            titles.append('Cantidad de mesas atendidas por Mesero - '+request.GET['day']+'de '+month)
-            titles.append('Cantidad de Atenciones por Cajero - '+request.GET['day']+'de '+month)
+            titles.append('Total de Ventas por Mesero - '+request.GET['day']+' de '+month)
+            titles.append('Cantidad de mesas atendidas por Mesero - '+request.GET['day']+' de '+month)
+            titles.append('Cantidad de Atenciones por Cajero - '+request.GET['day']+' de '+month)
         else:
             titles.append('Total de Ventas por Mesero - ' + month)
             titles.append('Cantidad de mesas atendidas por Mesero - ' + month)

@@ -23,7 +23,7 @@ $.ajax({
         defaultData1.push(data.default['1'])
         defaultData2.push(data.default['2'])
         for (i = 1; i < 3; i++) {
-            setChart(String(i), data.default[String(i)], data.labels[String(i)])
+            setChart(String(i), data.default[String(i)], data.labels[String(i)], data.titles[i-1], data.tag[i-1])
         }
         
     },
@@ -33,14 +33,14 @@ $.ajax({
     }
 })
 
-function setChart(i, data, label){
+function setChart(i, data, label, title, tag){
     var ctx2 = document.getElementById(i);
     var myChart = new Chart(ctx2, {
     type: 'bar',
     data: {
         labels: label,
         datasets: [{
-            label: '# of Millones de Pesos',
+            label: '# ' + tag,
             data: data,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
@@ -48,7 +48,29 @@ function setChart(i, data, label){
                 'rgba(255, 206, 86, 0.2)',
                 'rgba(75, 192, 192, 0.2)',
                 'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(0, 0, 0, 0.2)',
+                'rgba(120, 150, 180, 0.2)',
+                'rgba(63, 191, 63, 0.2)',
+                'rgba(255, 255, 10,0.2)',
+                'rgba(255, 132, 10, 0.2)',
+                'rgba(255, 10, 255, 0.2)',
+                'rgba(132, 255, 10, 0.2)',
+                'rgba(193, 71, 71, 0.2)',
+                'rgba(0, 12, 249, 0.2)',
+                'rgba(255, 10, 132, 0.2)',
+                'rgb(243, 194, 154, 0.2)',
+                'rgb(82, 42, 9, 0.2)',
+                'rgb(210, 205, 70, 0.2)',
+                'rgb(210, 70, 107, 0.2)',
+                'rgb(182, 105, 41, 0.2)',
+                'rgb(210, 70, 107, 0.2)',
+                'rgb(124, 22, 22, 0.2)',
+                'rgb(35, 255, 200, 0.2)',
+                'rgb(255, 90, 35, 0.2)',
+                'rgb(143, 215, 239, 0.2)',
+                'rgb(9, 52, 66, 0.2)',
+                'rgb(53, 68, 8, 0.2)'
             ],
             borderColor: [
                 'rgba(255,99,132,1)',
@@ -56,7 +78,29 @@ function setChart(i, data, label){
                 'rgba(255, 206, 86, 1)',
                 'rgba(75, 192, 192, 1)',
                 'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
+                'rgba(255, 159, 64, 1)',
+                'rgba(0, 0, 0, 1)',
+                'rgba(120, 150, 180, 1)',
+                'rgba(63, 191, 63, 1)',
+                'rgba(255, 255, 10, 1)',
+                'rgba(255, 132, 10, 1)',
+                'rgba(255, 10, 255, 1)',
+                'rgba(132, 255, 10, 1)',
+                'rgba(193, 71, 71, 1)',
+                'rgba(0, 12, 249, 1)',
+                'rgba(255, 10, 132, 1)',
+                'rgb(243, 194, 154, 1)',
+                'rgb(82, 42, 9, 1)',
+                'rgb(210, 205, 70, 1)',
+                'rgb(210, 70, 107, 1)',
+                'rgb(182, 105, 41, 1)',
+                'rgb(210, 70, 107, 1)',
+                'rgb(124, 22, 22, 1)',
+                'rgb(35, 255, 200, 1)',
+                'rgb(255, 90, 35, 1)',
+                'rgb(143, 215, 239, 1)',
+                'rgb(9, 52, 66, 1)',
+                'rgb(53, 68, 8, 1)'
             ],
             borderWidth: 1
         }]
@@ -64,7 +108,8 @@ function setChart(i, data, label){
     options: {
         title: {
             display: true,
-            text: 'Grafico 1'
+            text: title,
+            fontSize: 18
         },
         scales: {
             yAxes: [{
@@ -84,32 +129,38 @@ function setChart(i, data, label){
 
 {% block content %}
 
-<div class='row'>
-
-    <div class='col-sm-12' url-endpoint='{% url "api-generals" %}'>
+<div>
+    <div>
+        <h2 class="display-4 text-center">Estadísticas <b>Generales</b></h2>
+    </div>
+    <div class='form-group' style='margin: 1rem; right: 5%; position: absolute'>
         <form role="form" action='{% url "general" %}'> 
-            <select id="modalidad" name="modalidad">
-                <option value="1"> Anual</option>
-                <option value="2"> Mensual</option>
-
-              </select>
-              <select id="month" name="month">
+            <select class='custom-select' style='width: 38%; font-size: 13px' id="modalidad" name="modalidad">
+                <option value="1"> Mensual</option>
+                <option value="2"> Diario</option>
+            </select>
+            <select class='custom-select' style='width: 36%; font-size: 13px' id="month" name="month">
                 <option value="1">Enero</option>
                 <option value="2">Febrero</option>
-                <option value="3">Marzo</option>
-                <option value="4">Abril</option>
+                <option value="3" selected>Marzo</option>
 
-              </select>
-             
-        <button type="submit">Filtrar</button>
-        </form>
-        <div class='col-sm-6' style="position: relative; height:40vh; width:40vw">
-            <canvas id='1' ></canvas>
+            </select>
             
+            <button style='border-radius: 4px; height: 34.5px' type="submit">Filtrar</button>
+        </form>
+    </div>
+
+    <div url-endpoint='{% url "api-generals" %}' style='margin-top: 6rem'>
+        <div class='row'>
+            <div class='col'>
+                <canvas id='1' width="200" height="114"></canvas>      
+            </div>  
+            <div class="col">
+                <canvas id='2' width="200" height="114"></canvas>
+            </div>    
+              
         </div>
-        <div class="col-sm-6" style="position: relative; height:100vh; width:100vw">
-            <canvas id='2' width="400" height="400"></canvas>
-        </div>
+        
     </div>
 </div>
 

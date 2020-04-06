@@ -60,7 +60,8 @@ function setChart(i, data, label, title, tag){
     options: {
         title: {
             display: true,
-            text: title
+            text: title,
+            fontSize: 16
         },
         scales: {
             yAxes: [{
@@ -91,10 +92,6 @@ function setChart(i, data, label, title, tag){
                 {% for i in '0123456789101112131415161718192'|make_list %}
                     <option value='{{forloop.counter}}'>{{forloop.counter}}</option>
                 {% endfor %}
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
                 <option value="0" selected>Todos los dias</option>
             </select>
             
